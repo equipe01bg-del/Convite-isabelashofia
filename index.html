@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite Isabela Sophia - Carta Animada</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Poppins', 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg,#fce8f1,#fee4e8 50%,#ffeef1);
+  color:#333;
+}
+.wrapper{
+  text-align:center;
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+.title{
+  margin-bottom:1rem;
+  font-size:1.2rem;
+  font-weight:700;
+  color:#8d1240;
+}
+.envelope-container{
+  width:320px;
+  height:220px;
+  position:relative;
+  perspective:1400px;
+  margin:auto;
+  cursor:pointer;
+  touch-action: manipulation;
+}
+.envelope{
+  width:100%;
+  height:100%;
+  position:absolute;
+  transform-style:preserve-3d;
+  transform-origin:center center;
+  transition:transform .6s cubic-bezier(0.22,1,0.36,1), box-shadow .4s ease;
+  cursor:pointer;
+}
+.envelope-container:hover .envelope{ transform: translateY(-6px) scale(1.02); }
+.envelope.open{ transform: translateY(-22px) rotateX(18deg) scale(1.1); box-shadow:0 28px 50px rgba(0,0,0,0.42);}
+.envelope.shake{ animation: shake 0.35s cubic-bezier(0.36,0.07,0.19,0.97); }
+@keyframes shake {
+  0% { transform: translateX(0); }
+  15% { transform: translateX(-8px); }
+  30% { transform: translateX(8px); }
+  45% { transform: translateX(-6px); }
+  60% { transform: translateX(6px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+.envelope-container:hover .envelope-flap{ animation: flapPulse 0.8s ease-in-out infinite alternate; }
+@keyframes flapPulse {
+  0%,100%{transform:rotateX(0deg);}
+  50%{transform:rotateX(4deg);}
+}
+.envelope-outer,.envelope-flap,.letter-front{
+  position:absolute;left:0;top:0;width:100%;height:100%;border-radius:14px;
+  box-shadow:0 16px 30px rgba(0,0,0,0.25);
+}
+.envelope-outer{background:#ff8dc7;}
+.envelope-flap{
+  background:#ff5f9a;transform-origin:top;transform:rotateX(0deg);
+  transition:transform .7s ease;
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+}
+.envelope.open .envelope-flap{transform:rotateX(-180deg);}
+.letter{
+  position:absolute;left:12px;top:42px;width:calc(100% - 24px);height:calc(100% - 54px);
+  background:#fff;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  transform: translateY(18px) scale(0.96);opacity:0;transition:all .6s ease;
+  padding:20px;text-align:center;
+  pointer-events:none;
+}
+.envelope.open .letter{transform: translateY(-14px) scale(1.12);opacity:1;transition-delay:.15s;pointer-events:auto;}
+.letter h2{margin-bottom:0.4rem;font-size:1.1rem;color:#c71a6d;}
+.envelope.open .letter h2{animation: pop 0.4s ease both;}
+@keyframes pop {0%{transform:scale(0.94);opacity:.3;}70%{transform:scale(1.03);opacity:1;}100%{transform:scale(1);}}
+.letter p{margin-bottom:0.8rem;font-size:0.95rem;line-height:1.4;font-weight:500;color:#555;}
+.message{font-size:0.9rem;color:#777;margin-bottom:1rem;}
+.confirm-btn{
+  display:inline-block;background:#d9197e;color:#fff;text-decoration:none;
+  padding:0.75rem 1.3rem;border-radius:999px;font-weight:700;cursor:pointer;
+  opacity:0;transform: translateY(8px);transition:all .4s ease;
+}
+.confirm-btn.visible{opacity:1;transform: translateY(0);}
+.confirm-btn:hover{background:#b00f63;}
+@keyframes linkGlow {0%{box-shadow:0 0 0 rgba(255,181,216,0);}50%{box-shadow:0 0 18px rgba(255,181,216,0.55);}100%{box-shadow:0 0 0 rgba(255,181,216,0);}}
+.confirm-btn.glow{animation:linkGlow 1.4s ease-in-out infinite;}
+.confetti-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;}
+.confetti-piece{position:absolute;width:8px;height:12px;background:magenta;opacity:.9;transform-origin:center;animation:confetti-fall 1.8s ease-out forwards;}
+@keyframes confetti-fall{0%{opacity:1;transform:translateY(0) rotate(0deg);}100%{opacity:0;transform:translateY(260px) rotate(720deg);}}
+.status{margin-top:1rem;font-size:0.9rem;color:#5a0f45;}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="title">Método PROFISSIONAL ✉️✨ - Convite Interativo</div>
+  <div class="envelope-container" id="envelopeContainer" role="button" aria-label="Abrir convite" tabindex="0">
+    <div class="envelope" id="envelope">
+      <div class="envelope-outer"></div>
+      <div class="envelope-flap"></div>
+      <div class="letter">
+        <h2>🎉 Convite Especial</h2>
+        <p>Você foi convidado para o aniversário da <strong>Isabela Sophia</strong>.</p>
+        <p class="message">Toque/click na carta para abrir e acessar o convite.</p>
+        <a class="confirm-btn" id="confirmBtn" href="https://meu.temfestinha.com/isabela-sophia-04-2026" target="_blank" rel="noopener">Ir para o convite</a>
+      </div>
+    </div>
+  </div>
+  <div class="confetti-container" id="confettiContainer"></div>
+  <div class="status" id="statusText">Carta fechada. Clique para abrir.</div>
+</div>
+<script>
+const envelope = document.getElementById('envelope');
+const container = document.getElementById('envelopeContainer');
+const link = document.getElementById('confirmBtn');
+const statusText = document.getElementById('statusText');
+
+function shakeEnvelope(){ envelope.classList.add('shake'); setTimeout(()=>envelope.classList.remove('shake'), 380); }
+
+function toggleEnvelope(){
+  if (envelope.classList.contains('open')) {
+    envelope.classList.remove('open');
+    link.classList.remove('visible','glow');
+    statusText.textContent = 'Carta fechada. Clique para abrir.';
+  } else {
+    shakeEnvelope();
+    setTimeout(() => {
+      envelope.classList.add('open');
+      statusText.textContent = 'Carta aberta! Clique no link para acessar o convite.';
+      link.classList.add('visible','glow');
+      link.style.transform = 'translateY(-4px) scale(1.02)';
+    }, 260);
+  }
+}
+
+window.addEventListener('load', () => {
+  envelope.classList.remove('open');
+  link.classList.remove('visible','glow');
+  statusText.textContent = 'Carta fechada. Clique para abrir.';
+});
+
+container.addEventListener('click', toggleEnvelope);
+container.addEventListener('touchstart', function(event){ event.preventDefault(); toggleEnvelope(); }, {passive:false});
+container.addEventListener('keydown', function(event){ 
+  if(event.key==='Enter'||event.key===' '){event.preventDefault(); toggleEnvelope();}
+});
+link.addEventListener('click', function(event){ event.stopPropagation(); });
+link.addEventListener('mouseover',()=>{ link.style.transform='translateY(-2px) scale(1.04)'; });
+link.addEventListener('mouseout',()=>{ if(envelope.classList.contains('open')) link.style.transform='translateY(0) scale(1)'; });
+</script>
+</body>
+</html>
